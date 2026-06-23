@@ -5,7 +5,6 @@
 #include <sched.h>
 #include <unistd.h>
 
-/* Funcao exigida pelo PDF do projeto para coletar as metricas */
 void capturar_metricas() {
     struct rusage uso;
     struct timeval tempo_parede;
@@ -22,7 +21,6 @@ void capturar_metricas() {
 }
 
 int main(int argc, char *argv[]) {
-    /* Se passarmos '7' como argumento no terminal, ele roda em SCHED_BACKGROUND */
     if (argc > 1 && atoi(argv[1]) == 7) {
         struct sched_param p = { .sched_priority = 0 };
         if (sched_setscheduler(0, 7, &p) == 0) {
@@ -35,9 +33,8 @@ int main(int argc, char *argv[]) {
         printf("PID %d: Iniciado em SCHED_OTHER (Politica Padrao)\n", getpid());
     }
 
-    printf("Executando carga de trabalho intensiva (Cálculo em lote)...\n");
+    printf("Executando carga de trabalho intensiva (Calculo em lote)...\n");
     
-    /* Simula a matriz de processos intensivos ou hash exigida pelo projeto */
     volatile double calculo = 0.0;
     for(long i = 0; i < 800000000; i++) {
         calculo += 0.00001; 

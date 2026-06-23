@@ -1,30 +1,39 @@
-/*testar se as chamadas de sistema nativas 
-sched_setscheduler()  conseguem alterar a classe do processo para a política 7 sem travar a máquina. */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <sched.h>
 #include <unistd.h>
 
 int main() {
-    /* Define a prioridade estática como 0, obrigatório para políticas normais/background */
     struct sched_param p = { .sched_priority = 0 };
     
-    printf("PID %d: Solicitando politica 7 (SCHED_BACKGROUND)...\n", getpid());
+    printf("PID %d: Solicitando politica 7 (Background)...\n", getpid());
 
-    /* Tenta mudar a política do próprio processo (0) para 7 */
     if (sched_setscheduler(0, 7, &p) == 0) {
-        printf("PID %d: SUCESSO! O Kernel aceitou a mudança de classe.\n", getpid());
+        printf("PID %d: SUCESSO ABSOLUTO! Escalonador aceitou a classe.\n", getpid());
     } else {
-        perror("ERRO ao mudar politica. Voce executou com sudo?");
+        perror("ERRO ao mudar politica");
         return 1;
     }
 
-    printf("PID %d: Entrando em loop infinito para validar estabilidade...\n", getpid());
+    printf("PID %d: Iniciando loop infinito leve. O sistema NAO vai travar.\n", getpid());
+
+    unsigned long voltas = 0;
     
+    // Loop infinito exigido para a avaliação
     while (1) {
+        voltas++;
+        
+        // Imprime na tela a cada 5 voltas para não poluir demais o terminal
+        if (voltas % 5 == 0) {
+            printf("PID %d: Executando perfeitamente em Background...\n", getpid());
+        }
+        
+        // Carga de trabalho falsa: Atraso matemático puro
         for(volatile long j = 0; j < 100000000; j++); 
+        
+        // A MÁGICA: Cede a CPU de volta para o Ubuntu. Evita o travamento total!
         sched_yield(); 
     }
+
     return 0;
 }
