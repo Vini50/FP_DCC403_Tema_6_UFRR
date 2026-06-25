@@ -1,7 +1,6 @@
 #include "sched.h"
 
-/* Chamada quando uma tarefa BACKGROUND acorda ou é criada.
- * Aqui você adicionará a tarefa à sua fila de processos. */
+/* Chamada quando uma tarefa BACKGROUND acorda ou é criada.. */
 static void enqueue_task_background(struct rq *rq, struct task_struct *p, int flags)
 {
     /* DECLARAÇÕES PRIMEIRO (Padrão C90) */
@@ -90,7 +89,7 @@ static void task_tick_background(struct rq *rq, struct task_struct *p, int queue
     if (bg_rq->nr_running < 2)
         return;
 
-    /* Se chegamos aqui, tem mais gente na fila!
+    /* Se chegar aqui, tem mais gente na fila!
      * A função list_move_tail tira a tarefa atual de onde ela está
      * e a realoca no final da fila (bg_rq->queue). */
     list_move_tail(&p->bg_run_list, &bg_rq->queue);
