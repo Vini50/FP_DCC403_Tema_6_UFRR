@@ -51,7 +51,6 @@ int main(int argc, char *argv[]) {
         printf("SUCESSO! O Kernel confirmou: Processo %d agora roda em SCHED_BACKGROUND.\n", pid);
     } else {
         // Se cair aqui, a system call não deu erro, mas o Kernel mapeou para outra classe (ex: CFS).
-        // (Mas como já consertamos o core.c e o Linker, isso não deve mais acontecer!)
         printf("AVISO: O comando rodou, mas o processo foi alocado na política %d.\n", politica_atual);
     }
 
