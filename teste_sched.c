@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-// Bibliotecas cruciais para interagir com a API de agendamento do Kernel Linux
 #include <sched.h>   
 #include <errno.h>   
 #include <unistd.h>  
